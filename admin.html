@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin • Alumni Connect</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo-wrapper">
+          <img src="mitaoe-logo.png" alt="MITAOE logo" class="logo-img" />
+        </div>
+        <div class="brand">
+          <span class="brand-title">Alumni Connect</span>
+          <span class="brand-subtitle">Admin Dashboard</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="admin.html" class="nav-link nav-link-active">Admin</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-ghost auth-btn" data-auth="signin">Sign In</button>
+        <button class="btn btn-primary auth-btn" data-auth="signup">Sign Up</button>
+      </div>
+    </header>
+
+    <main>
+      <section class="section">
+        <div class="section-header">
+          <h2>Admin Dashboard (Demo)</h2>
+          <p>View registered users and contact messages stored in the backend.</p>
+        </div>
+
+        <div class="about-grid">
+          <div class="about-card" style="grid-column: 1 / -1;">
+            <h3>Registered Users</h3>
+            <p style="font-size: 0.85rem; color: #6b7280;">
+              Shows all users from the <code>users</code> collection (students + alumni).
+            </p>
+            <div style="overflow-x: auto; margin-top: 0.75rem;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Department</th>
+                    <th>Year / Grad Year</th>
+                    <th>Company</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-body">
+                  <!-- populated by script.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="about-card" style="grid-column: 1 / -1;">
+            <h3>Contact Messages</h3>
+            <p style="font-size: 0.85rem; color: #6b7280;">
+              Messages submitted from the Contact page (<code>messages</code> collection).
+            </p>
+            <div style="overflow-x: auto; margin-top: 0.75rem;">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Department</th>
+                    <th>Status</th>
+                    <th>Message</th>
+                    <th>Created At</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-messages-body">
+                  <!-- populated by script.js -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <div id="auth-modal" class="auth-modal">
+      <div class="auth-backdrop"></div>
+      <div class="auth-content">
+        <div class="auth-header">
+          <div>
+            <div class="auth-title">Welcome to Alumni Connect</div>
+            <div class="auth-meta">Sign in or create an account to continue.</div>
+          </div>
+          <button class="auth-close" aria-label="Close">✕</button>
+        </div>
+        <div class="auth-tabs">
+          <button class="auth-tab auth-tab-active" data-auth-tab="signin">
+            Sign In
+          </button>
+          <button class="auth-tab" data-auth-tab="signup">Sign Up</button>
+        </div>
+        <div data-auth-panel="signin" class="auth-panel">
+          <form class="auth-form">
+            <label>
+              MITAOE Email
+              <input type="email" placeholder="you@mitcoe.edu (demo only)" />
+            </label>
+            <label>
+              Password
+              <input type="password" placeholder="Enter your password" />
+            </label>
+            <button type="button" class="btn btn-primary btn-full">
+              Sign In (demo)
+            </button>
+          </form>
+        </div>
+        <div data-auth-panel="signup" class="auth-panel hidden">
+          <form class="auth-form">
+            <p class="auth-meta" style="margin-bottom: 0.4rem;">
+              Join the Alumni Connect community today.
+            </p>
+            <div class="auth-role-toggle">
+              <button type="button" class="auth-role auth-role-active" data-role="student">Student</button>
+              <button type="button" class="auth-role" data-role="alumni">Alumni</button>
+              <button type="button" class="auth-role" data-role="admin">Admin</button>
+            </div>
+            <label>
+              Full Name
+              <input type="text" placeholder="Enter your full name" />
+            </label>
+            <label>
+              Email Address
+              <input type="email" placeholder="Enter your email" />
+            </label>
+            <label>
+              Phone Number
+              <input type="tel" placeholder="Enter your phone number" />
+            </label>
+            <label>
+              Department
+              <select>
+                <option value="">Select</option>
+                <option>Computer Engineering</option>
+                <option>IT Engineering</option>
+                <option>AIML</option>
+                <option>Data Science</option>
+                <option>Mechanical Engineering</option>
+                <option>Chemical Engineering</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label id="yearLabel">
+              Year
+              <select id="studentYearSelect">
+                <option value="">Select</option>
+                <option>FY</option>
+                <option>SY</option>
+                <option>TY</option>
+                <option>BTech</option>
+              </select>
+              <select id="alumniYearSelect" style="display: none;">
+                <option value="">Select</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
+                <option>2013</option>
+                <option>2012</option>
+                <option>2011</option>
+                <option>2010</option>
+                <option>2009</option>
+                <option>2008</option>
+                <option>2007</option>
+                <option>2006</option>
+                <option>2005</option>
+                <option>2004</option>
+                <option>2003</option>
+                <option>2002</option>
+                <option>2001</option>
+                <option>2000</option>
+                <option>1999</option>
+              </select>
+            </label>
+            <label>
+              Password
+              <input type="password" placeholder="Create a password" />
+            </label>
+            <label>
+              Confirm Password
+              <input type="password" placeholder="Confirm your password" />
+            </label>
+            <button type="button" class="btn btn-primary btn-full">
+              Create Account (demo)
+            </button>
+            <p class="auth-meta" style="margin-top: 0.5rem; text-align: center;">
+              Already have an account? <span style="color: #2563eb; cursor: pointer;" class="auth-switch-signin">Sign in</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+

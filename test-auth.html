@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test Auth - Alumni Connect</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    .debug-panel {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: #1f2937;
+      color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      max-width: 300px;
+      font-size: 12px;
+      z-index: 10000;
+    }
+    .debug-panel h4 {
+      margin: 0 0 10px 0;
+      color: #60a5fa;
+    }
+    .debug-log {
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: monospace;
+    }
+    .success-msg { color: #10b981; }
+    .error-msg { color: #ef4444; }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-left">
+      <div class="logo-wrapper">
+        <img src="mitaoe-logo.png" alt="MITAOE logo" class="logo-img">
+      </div>
+      <div class="brand">
+        <span class="brand-title">Alumni Connect</span>
+        <span class="brand-subtitle">Students × Alumni</span>
+      </div>
+    </div>
+    <div class="nav-actions">
+      <button class="btn btn-ghost auth-btn" data-auth="signin">Sign In</button>
+      <button class="btn btn-primary auth-btn" data-auth="signup">Sign Up</button>
+    </div>
+  </header>
+
+  <main style="padding: 4rem 5vw;">
+    <h1 style="text-align: center; margin-bottom: 2rem;">Test Authentication System</h1>
+    <p style="text-align: center; color: #6b7280; margin-bottom: 3rem;">
+      Click "Sign Up" to create an account. Check the debug panel below for logs.
+    </p>
+  </main>
+
+  <!-- Debug Panel -->
+  <div class="debug-panel">
+    <h4>Debug Console</h4>
+    <div class="debug-log" id="debugLog">Initializing...</div>
+  </div>
+
+  <!-- Auth Modal -->
+  <div id="auth-modal" class="auth-modal">
+    <div class="auth-backdrop"></div>
+    <div class="auth-content">
+      <div class="auth-header">
+        <div>
+          <div class="auth-title">Welcome to Alumni Connect</div>
+          <div class="auth-meta">Sign in or create an account to continue.</div>
+        </div>
+        <button class="auth-close" aria-label="Close">✕</button>
+      </div>
+      <div class="auth-tabs">
+        <button class="auth-tab auth-tab-active" data-auth-tab="signin">Sign In</button>
+        <button class="auth-tab" data-auth-tab="signup">Sign Up</button>
+      </div>
+      
+      <!-- SIGN IN PANEL -->
+      <div data-auth-panel="signin" class="auth-panel">
+        <div class="auth-form">
+          <label>
+            MITAOE Email
+            <input type="email" id="signin-email" placeholder="you@mitcoe.edu">
+          </label>
+          <label>
+            Password
+            <input type="password" id="signin-password" placeholder="Enter your password">
+          </label>
+          <button type="button" class="btn btn-primary btn-full" id="signin-btn">
+            Sign In
+          </button>
+        </div>
+      </div>
+      
+      <!-- SIGN UP PANEL -->
+      <div data-auth-panel="signup" class="auth-panel hidden">
+        <div class="auth-form">
+          <p class="auth-meta" style="margin-bottom: 0.4rem;">
+            Join the Alumni Connect community today.
+          </p>
+          <div class="auth-role-toggle">
+            <button type="button" class="auth-role auth-role-active" data-role="student">Student</button>
+            <button type="button" class="auth-role" data-role="alumni">Alumni</button>
+            <button type="button" class="auth-role" data-role="admin">Admin</button>
+          </div>
+          <label>
+            Full Name
+            <input type="text" id="signup-name" placeholder="Enter your full name">
+          </label>
+          <label>
+            Email Address
+            <input type="email" id="signup-email" placeholder="Enter your email">
+          </label>
+          <label>
+            Phone Number
+            <input type="tel" id="signup-phone" placeholder="Enter your phone number">
+          </label>
+          <label>
+            Department
+            <select id="signup-department">
+              <option value="">Select</option>
+              <option>Computer Engineering</option>
+              <option>IT Engineering</option>
+              <option>AIML</option>
+              <option>Data Science</option>
+              <option>Mechanical Engineering</option>
+              <option>Chemical Engineering</option>
+              <option>Other</option>
+            </select>
+          </label>
+          <label id="yearLabel">
+            Year
+            <select id="studentYearSelect">
+              <option value="">Select</option>
+              <option>FY</option>
+              <option>SY</option>
+              <option>TY</option>
+              <option>BTech</option>
+            </select>
+            <select id="alumniYearSelect" style="display: none;">
+              <option value="">Select</option>
+              <option>2025</option>
+              <option>2024</option>
+              <option>2023</option>
+              <option>2022</option>
+              <option>2021</option>
+              <option>2020</option>
+            </select>
+          </label>
+          <label>
+            Password
+            <input type="password" id="signup-password" placeholder="Create a password">
+          </label>
+          <label>
+            Confirm Password
+            <input type="password" id="signup-confirm" placeholder="Confirm your password">
+          </label>
+          <button type="button" class="btn btn-primary btn-full" id="signup-btn">
+            Create Account
+          </button>
+          <p class="auth-meta" style="margin-top: 0.5rem; text-align: center;">
+            Already have an account? <span style="color: #2563eb; cursor: pointer;" class="auth-switch-signin">Sign in</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Debug logging
+    function log(message, type = 'info') {
+      const debugLog = document.getElementById('debugLog');
+      const time = new Date().toLocaleTimeString();
+      const className = type === 'error' ? 'error-msg' : type === 'success' ? 'success-msg' : '';
+      debugLog.innerHTML += `<div class="${className}">[${time}] ${message}</div>`;
+      debugLog.scrollTop = debugLog.scrollHeight;
+      console.log(`[${time}] ${message}`);
+    }
+
+    let currentRole = 'student';
+
+    // Show message
+    function showMessage(message, type = 'success') {
+      const existing = document.querySelector('.toast-message');
+      if (existing) existing.remove();
+
+      const toast = document.createElement('div');
+      toast.className = 'toast-message';
+      toast.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        padding: 1rem 1.5rem;
+        background: ${type === 'success' ? '#10b981' : '#ef4444'};
+        color: white;
+        border-radius: 8px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 99999;
+        font-size: 0.9rem;
+        font-weight: 500;
+      `;
+      toast.textContent = message;
+      document.body.appendChild(toast);
+
+      setTimeout(() => toast.remove(), 3500);
+    }
+
+    // Modal controls
+    function setupModal() {
+      const modal = document.getElementById('auth-modal');
+      const backdrop = modal.querySelector('.auth-backdrop');
+      const closeBtn = modal.querySelector('.auth-close');
+      const tabs = modal.querySelectorAll('[data-auth-tab]');
+      const authBtns = document.querySelectorAll('.auth-btn');
+      const roleBtns = modal.querySelectorAll('.auth-role');
+      const switchSignIn = modal.querySelector('.auth-switch-signin');
+
+      // Open modal
+      authBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const mode = btn.dataset.auth;
+          log(`Opening modal in ${mode} mode`);
+          modal.classList.add('auth-open');
+          switchMode(mode);
+        });
+      });
+
+      // Switch modes
+      function switchMode(mode) {
+        log(`Switching to ${mode} mode`);
+        tabs.forEach(tab => {
+          tab.classList.toggle('auth-tab-active', tab.dataset.authTab === mode);
+        });
+        
+        const signinPanel = document.querySelector('[data-auth-panel="signin"]');
+        const signupPanel = document.querySelector('[data-auth-panel="signup"]');
+        
+        if (mode === 'signin') {
+          signinPanel.classList.remove('hidden');
+          signupPanel.classList.add('hidden');
+        } else {
+          signinPanel.classList.add('hidden');
+          signupPanel.classList.remove('hidden');
+        }
+      }
+
+      // Tab clicks
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          switchMode(tab.dataset.authTab);
+        });
+      });
+
+      // Close modal
+      const closeModal = () => {
+        log('Closing modal');
+        modal.classList.remove('auth-open');
+      };
+
+      backdrop.addEventListener('click', closeModal);
+      closeBtn.addEventListener('click', closeModal);
+      if (switchSignIn) {
+        switchSignIn.addEventListener('click', () => switchMode('signin'));
+      }
+
+      // Role selection
+      roleBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          roleBtns.forEach(b => b.classList.remove('auth-role-active'));
+          btn.classList.add('auth-role-active');
+          currentRole = btn.dataset.role;
+          log(`Role changed to: ${currentRole}`);
+
+          const studentYear = document.getElementById('studentYearSelect');
+          const alumniYear = document.getElementById('alumniYearSelect');
+          
+          if (currentRole === 'alumni') {
+            studentYear.style.display = 'none';
+            alumniYear.style.display = 'block';
+          } else {
+            studentYear.style.display = 'block';
+            alumniYear.style.display = 'none';
+          }
+        });
+      });
+    }
+
+    // Sign Up Handler
+    function setupSignUp() {
+      const signupBtn = document.getElementById('signup-btn');
+      
+      signupBtn.addEventListener('click', () => {
+        log('Sign up button clicked');
+        
+        const name = document.getElementById('signup-name').value.trim();
+        const email = document.getElementById('signup-email').value.trim();
+        const phone = document.getElementById('signup-phone').value.trim();
+        const dept = document.getElementById('signup-department').value;
+        const password = document.getElementById('signup-password').value;
+        const confirm = document.getElementById('signup-confirm').value;
+        
+        const year = currentRole === 'alumni' 
+          ? document.getElementById('alumniYearSelect').value 
+          : document.getElementById('studentYearSelect').value;
+
+        log(`Form data: Name=${name}, Email=${email}, Dept=${dept}, Year=${year}, Role=${currentRole}`);
+
+        // Validation
+        if (!name) {
+          showMessage('Please enter your full name', 'error');
+          log('Validation failed: No name', 'error');
+          return;
+        }
+
+        if (!email || !email.includes('@')) {
+          showMessage('Please enter a valid email', 'error');
+          log('Validation failed: Invalid email', 'error');
+          return;
+        }
+
+        if (!phone) {
+          showMessage('Please enter your phone number', 'error');
+          log('Validation failed: No phone', 'error');
+          return;
+        }
+
+        if (!dept) {
+          showMessage('Please select a department', 'error');
+          log('Validation failed: No department', 'error');
+          return;
+        }
+
+        if (!password || password.length < 6) {
+          showMessage('Password must be at least 6 characters', 'error');
+          log('Validation failed: Password too short', 'error');
+          return;
+        }
+
+        if (password !== confirm) {
+          showMessage('Passwords do not match', 'error');
+          log('Validation failed: Passwords do not match', 'error');
+          return;
+        }
+
+        // Check existing users
+        const users = JSON.parse(localStorage.getItem('alumniConnectUsers') || '[]');
+        log(`Found ${users.length} existing users`);
+
+        if (users.some(u => u.email === email)) {
+          showMessage('An account with this email already exists', 'error');
+          log('Validation failed: Email already exists', 'error');
+          return;
+        }
+
+        // Create user
+        const newUser = {
+          id: Date.now(),
+          fullName: name,
+          email,
+          password,
+          phone,
+          department: dept,
+          year: year || 'Not specified',
+          role: currentRole,
+          createdAt: new Date().toISOString()
+        };
+
+        users.push(newUser);
+        localStorage.setItem('alumniConnectUsers', JSON.stringify(users));
+        log(`User created successfully: ${email}`, 'success');
+
+        // Auto login
+        const session = { ...newUser };
+        delete session.password;
+        localStorage.setItem('alumniConnectUser', JSON.stringify(session));
+
+        showMessage(`Account created! Welcome, ${name}!`, 'success');
+        log('Account created and logged in', 'success');
+
+        setTimeout(() => {
+          location.reload();
+        }, 2000);
+      });
+    }
+
+    // Sign In Handler
+    function setupSignIn() {
+      const signinBtn = document.getElementById('signin-btn');
+      
+      signinBtn.addEventListener('click', () => {
+        log('Sign in button clicked');
+        
+        const email = document.getElementById('signin-email').value.trim();
+        const password = document.getElementById('signin-password').value;
+
+        log(`Attempting sign in for: ${email}`);
+
+        if (!email || !password) {
+          showMessage('Please fill in all fields', 'error');
+          log('Validation failed: Empty fields', 'error');
+          return;
+        }
+
+        const users = JSON.parse(localStorage.getItem('alumniConnectUsers') || '[]');
+        log(`Checking against ${users.length} users`);
+
+        const user = users.find(u => u.email === email && u.password === password);
+
+        if (user) {
+          const session = { ...user };
+          delete session.password;
+          localStorage.setItem('alumniConnectUser', JSON.stringify(session));
+          
+          showMessage(`Welcome back, ${user.fullName}!`, 'success');
+          log(`Sign in successful: ${email}`, 'success');
+
+          setTimeout(() => {
+            location.reload();
+          }, 2000);
+        } else {
+          showMessage('Invalid email or password', 'error');
+          log('Sign in failed: Invalid credentials', 'error');
+        }
+      });
+    }
+
+    // Check if logged in
+    function checkAuth() {
+      const user = localStorage.getItem('alumniConnectUser');
+      if (user) {
+        try {
+          const userData = JSON.parse(user);
+          log(`User already logged in: ${userData.fullName}`, 'success');
+          
+          const navActions = document.querySelector('.nav-actions');
+          navActions.innerHTML = `
+            <div style="padding: 0.5rem 1rem; background: #eff6ff; border-radius: 999px; font-size: 0.85rem;">
+              ${userData.fullName} (${userData.role})
+            </div>
+            <button class="btn btn-ghost" onclick="logout()">Logout</button>
+          `;
+        } catch (e) {
+          log('Error parsing user data', 'error');
+        }
+      } else {
+        log('No user logged in');
+      }
+    }
+
+    // Logout
+    function logout() {
+      localStorage.removeItem('alumniConnectUser');
+      showMessage('Logged out successfully', 'success');
+      log('User logged out', 'success');
+      setTimeout(() => location.reload(), 1000);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      log('Page loaded, initializing...');
+      checkAuth();
+      setupModal();
+      setupSignUp();
+      setupSignIn();
+      log('Initialization complete', 'success');
+    });
+  </script>
+</body>
+</html>

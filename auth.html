@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MITAOE | Auth</title>
+  <link rel="stylesheet" href="styles.css">
+
+  <style>
+    /* Sign In / Sign Up Toggle - MITAOE UI Style */
+    .toggle-container {
+      display: flex;
+      width: 100%;
+      background: #eef3ff;
+      padding: 6px;
+      border-radius: 12px;
+      margin-bottom: 18px;
+      box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.06);
+    }
+
+    .toggle-btn {
+      flex: 1;
+      padding: 10px 0;
+      font-size: 15px;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      transition: 0.25s ease-in-out;
+      color: #475569;
+    }
+
+    .toggle-btn.active {
+      background: white;
+      color: #2563eb;
+      font-weight: 600;
+      box-shadow: 0 2px 6px rgba(37, 99, 235, 0.25);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .auth-form {
+      display: none;
+    }
+
+    .auth-form.active {
+      display: block;
+    }
+
+    .auth-form h2 {
+      margin-bottom: 20px;
+      color: #111827;
+      font-size: 24px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- AUTH MODAL (Combined Sign In / Sign Up) -->
+  <div id="authModal" class="modal">
+    <div class="modal-content">
+      <span class="close auth-close">&times;</span>
+
+      <!-- Sign In / Sign Up Toggle -->
+      <div class="toggle-container" style="margin-bottom: 24px;">
+        <button type="button" id="signInToggle" class="toggle-btn active">Sign In</button>
+        <button type="button" id="signUpToggle" class="toggle-btn">Sign Up</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="auth-form active">
+        <h2>Welcome Back</h2>
+
+        <label>Email</label>
+        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+
+        <label>Password</label>
+        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+
+        <button type="submit" class="auth-btn">Sign In</button>
+
+        <p class="redirect-text">Don't have an account?
+          <span id="openSignup" class="link">Sign Up</span>
+        </p>
+      </form>
+
+      <!-- SIGNUP FORM -->
+      <form id="signupForm" class="auth-form">
+        <h2>Create Account</h2>
+
+        <!-- Student / Alumni / Admin Toggle -->
+        <div class="toggle-container">
+          <button type="button" id="studentBtn" class="toggle-btn active">Student</button>
+          <button type="button" id="alumniBtn" class="toggle-btn">Alumni</button>
+          <button type="button" id="adminBtn" class="toggle-btn">Admin</button>
+        </div>
+
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="Enter your name" required />
+
+        <label>Email</label>
+        <input type="email" id="signupEmail" placeholder="Enter email" required />
+
+        <label>Password</label>
+        <input type="password" id="signupPassword" placeholder="Create password" required />
+
+        <!-- Visible only for STUDENT -->
+        <div id="studentFields">
+          <label>Department</label>
+          <select id="department">
+            <option value="" disabled selected>Select Department</option>
+            <option value="CSE">CSE</option>
+            <option value="AIDS">AIDS</option>
+            <option value="ENTC">ENTC</option>
+            <option value="MECH">MECH</option>
+          </select>
+
+          <label>Year</label>
+          <select id="year">
+            <option value="" disabled selected>Select Year</option>
+            <option value="FE">FE</option>
+            <option value="SE">SE</option>
+            <option value="TE">TE</option>
+            <option value="BE">BE</option>
+          </select>
+        </div>
+
+        <!-- Visible only for ALUMNI -->
+        <div id="alumniFields" class="hidden">
+          <label>Graduation Year</label>
+          <input type="number" id="graduationYear" placeholder="e.g., 2020" min="1990" max="2024">
+
+          <label>Current Company</label>
+          <input type="text" id="company" placeholder="Enter your company">
+
+          <label>Designation</label>
+          <input type="text" id="designation" placeholder="Enter your designation">
+        </div>
+
+        <!-- Visible only for ADMIN -->
+        <div id="adminFields" class="hidden">
+          <label>Admin Code</label>
+          <input type="password" id="adminCode" placeholder="Enter admin code" required>
+
+          <label>Department</label>
+          <select id="adminDepartment">
+            <option value="" disabled selected>Select Department</option>
+            <option value="CSE">CSE</option>
+            <option value="AIDS">AIDS</option>
+            <option value="ENTC">ENTC</option>
+            <option value="MECH">MECH</option>
+          </select>
+        </div>
+
+        <button type="submit" class="auth-btn">Create Account</button>
+
+        <p class="redirect-text">Already have an account?
+          <span id="openLogin" class="link">Sign In</span>
+        </p>
+      </form>
+
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+
+</body>
+</html>

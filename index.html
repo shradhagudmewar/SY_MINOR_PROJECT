@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Alumni Connect</title>
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-left">
+        <div class="logo-wrapper">
+          <!-- Alumni Connect Logo -->
+          <img src="mitaoe-logo.png" alt="Alumni Connect logo" class="logo-img" />
+        </div>
+        <div class="brand">
+          <span class="brand-title">Alumni Connect</span>
+          <span class="brand-subtitle">Students × Alumni</span>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html" class="nav-link nav-link-active">Home</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="communities.html" class="nav-link">Communities</a>
+        <a href="events.html" class="nav-link">Events</a>
+        <a href="projects.html" class="nav-link">Projects</a>
+        <a href="gallery.html" class="nav-link">Gallery</a>
+        <a href="contact.html" class="nav-link">Contact</a>
+      </nav>
+      <div class="nav-actions">
+        <button class="btn btn-ghost auth-btn" data-auth="signin">Sign In</button>
+        <button class="btn btn-primary auth-btn" data-auth="signup">Get Started</button>
+      </div>
+    </header>
+
+    <main>
+      <!-- HERO SECTION -->
+      <section id="hero" class="section hero">
+        <div class="hero-content">
+          <h1>
+            Alumni <span class="accent">Connect</span> Portal for
+            <span class="accent">Students & Alumni</span>
+          </h1>
+          <p class="hero-text">
+            One community, many journeys. Discover mentors, opportunities, and
+            real-world guidance from the MITAOE alumni network.
+          </p>
+          <div class="hero-actions">
+            <button class="btn btn-primary">Student Space</button>
+            <button class="btn btn-outline">Alumni Space</button>
+          </div>
+          <div class="hero-stats">
+            <div class="stat">
+              <span class="stat-number">500+</span>
+              <span class="stat-label">Active Alumni</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">50+</span>
+              <span class="stat-label">Mentorship Circles</span>
+            </div>
+            <div class="stat">
+              <span class="stat-number">20+</span>
+              <span class="stat-label">Countries</span>
+            </div>
+          </div>
+        </div>
+        <div class="hero-card">
+          <h2>Find your Mentor</h2>
+          <p class="hero-card-text">
+            Filter alumni by domain, batch, and company to find the best match.
+          </p>
+          <form id="mentor-search-form" class="hero-form">
+            <label>
+              Interest Area
+              <select id="interest">
+                <option value="">Select domain</option>
+                <option>Computer</option>
+                <option>Software</option>
+                <option>Chemical</option>
+                <option>Mechanical</option>
+                <option>AIML</option>
+                <option>Data Science</option>
+                <option>IT Engineering</option>
+              </select>
+            </label>
+            <label>
+              Graduation Batch
+              <select id="batch">
+                <option value="">Any batch</option>
+                <option>1999</option>
+                <option>2000</option>
+                <option>2001</option>
+                <option>2002</option>
+                <option>2003</option>
+                <option>2004</option>
+                <option>2005</option>
+                <option>2006</option>
+                <option>2007</option>
+                <option>2008</option>
+                <option>2009</option>
+                <option>2010</option>
+                <option>2011</option>
+                <option>2012</option>
+                <option>2013</option>
+                <option>2014</option>
+                <option>2015</option>
+                <option>2016</option>
+                <option>2017</option>
+                <option>2018</option>
+                <option>2019</option>
+                <option>2020</option>
+                <option>2021</option>
+                <option>2022</option>
+                <option>2023</option>
+                <option>2024</option>
+                <option>2025</option>
+              </select>
+            </label>
+            <label>
+              Company / Domain
+              <input
+                id="company"
+                type="text"
+                placeholder="e.g. Google, TCS, Research"
+              />
+            </label>
+            <button type="submit" class="btn btn-primary btn-full">
+              Search Alumni
+            </button>
+            <p class="hero-form-note">
+              No login needed for demo. Data below will filter instantly.
+            </p>
+          </form>
+        </div>
+      </section>
+
+      <!-- ABOUT -->
+      <section id="about" class="section about">
+        <div class="section-header">
+          <h2>What is Alumni Connect?</h2>
+          <p>
+            A digital bridge between current MITAOE students and alumni working
+            in leading universities and companies around the world.
+          </p>
+        </div>
+        <div class="about-grid">
+          <div class="about-card">
+            <h3>For Students</h3>
+            <p>
+              Get real-world guidance on internships, placements, higher
+              studies, and projects directly from people who have been in your
+              shoes.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3>For Alumni</h3>
+            <p>
+              Give back to your college, share your journey, and discover
+              talented students for referrals, collaborations, and hiring.
+            </p>
+          </div>
+          <div class="about-card">
+            <h3>For MITAOE</h3>
+            <p>
+              Build a stronger, connected community that supports continuous
+              learning, innovation, and career growth.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FEATURES -->
+      <section id="features" class="section features">
+        <div class="section-header">
+          <h2>Key Features</h2>
+          <p>Everything you need to stay connected with the MITAOE network.</p>
+        </div>
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">🤝</div>
+            <h3>Mentorship</h3>
+            <p>One-to-one and group mentoring sessions with verified alumni.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💼</div>
+            <h3>Career Guidance</h3>
+            <p>
+              Insights on interviews, resumes, portfolios, and domain-specific
+              roadmaps.
+            </p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🌍</div>
+            <h3>Global Network</h3>
+            <p>Connect with alumni working in different countries and domains.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">📅</div>
+            <h3>Events & Webinars</h3>
+            <p>Stay updated with alumni talks, workshops, and meetups.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ALUMNI LIST / MENTORS -->
+      <section id="mentors" class="section mentors">
+        <div class="section-header">
+          <h2>Featured Alumni Mentors</h2>
+          <p>Browse some example alumni profiles filtered by your interests.</p>
+        </div>
+        <div id="mentor-list" class="mentors-grid">
+          <!-- Cards populated by script.js -->
+        </div>
+        <p id="no-results" class="no-results hidden">
+          No alumni match the selected filters yet. Try changing the options.
+        </p>
+      </section>
+
+      <!-- JOIN -->
+      <section id="join" class="section join">
+        <div class="join-card">
+          <div>
+            <h2>Ready to be part of Alumni Connect?</h2>
+            <p>
+              Whether you are a student or an alumnus, join the platform and
+              start building meaningful connections.
+            </p>
+          </div>
+          <div class="join-actions">
+            <button class="btn btn-primary">Student Sign up</button>
+            <button class="btn btn-outline">Alumni Sign up</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p>© <span id="year"></span> Alumni Connect. Built for the MITAOE community.</p>
+      <p class="footer-links">
+        <a href="index.html">Home</a>
+        <span>•</span>
+        <a href="about.html">About</a>
+        <span>•</span>
+        <a href="contact.html">Contact</a>
+      </p>
+    </footer>
+
+    <!-- Auth modal shared across pages -->
+    <div id="auth-modal" class="auth-modal">
+      <div class="auth-backdrop"></div>
+      <div class="auth-content">
+        <div class="auth-header">
+          <div>
+            <div class="auth-title">Welcome to Alumni Connect</div>
+            <div class="auth-meta">Sign in or create an account to continue.</div>
+          </div>
+          <button class="auth-close" aria-label="Close">✕</button>
+        </div>
+        <div class="auth-tabs">
+          <button class="auth-tab auth-tab-active" data-auth-tab="signin">
+            Sign In
+          </button>
+          <button class="auth-tab" data-auth-tab="signup">Sign Up</button>
+        </div>
+        <div data-auth-panel="signin" class="auth-panel">
+          <form class="auth-form">
+            <label>
+              MITAOE Email
+              <input type="email" placeholder="you@mitcoe.edu (demo only)" />
+            </label>
+            <label>
+              Password
+              <input type="password" placeholder="Enter your password" />
+            </label>
+            <button type="button" class="btn btn-primary btn-full">
+              Sign In (demo)
+            </button>
+          </form>
+        </div>
+        <div data-auth-panel="signup" class="auth-panel hidden">
+          <form class="auth-form">
+            <p class="auth-meta" style="margin-bottom: 0.4rem;">
+              Join the Alumni Connect community today.
+            </p>
+            <div class="auth-role-toggle">
+              <button type="button" class="auth-role auth-role-active" data-role="student">Student</button>
+              <button type="button" class="auth-role" data-role="alumni">Alumni</button>
+              <button type="button" class="auth-role" data-role="admin">Admin</button>
+            </div>
+            <label>
+              Full Name
+              <input type="text" placeholder="Enter your full name" />
+            </label>
+            <label>
+              Email Address
+              <input type="email" placeholder="Enter your email" />
+            </label>
+            <label>
+              Phone Number
+              <input type="tel" placeholder="Enter your phone number" />
+            </label>
+            <label>
+              Department
+              <select>
+                <option value="">Select</option>
+                <option>Computer Engineering</option>
+                <option>IT Engineering</option>
+                <option>AIML</option>
+                <option>Data Science</option>
+                <option>Mechanical Engineering</option>
+                <option>Chemical Engineering</option>
+                <option>Other</option>
+              </select>
+            </label>
+            <label id="yearLabel">
+              Year
+              <select id="studentYearSelect">
+                <option value="">Select</option>
+                <option>FY</option>
+                <option>SY</option>
+                <option>TY</option>
+                <option>BTech</option>
+              </select>
+              <select id="alumniYearSelect" style="display: none;">
+                <option value="">Select</option>
+                <option>2025</option>
+                <option>2024</option>
+                <option>2023</option>
+                <option>2022</option>
+                <option>2021</option>
+                <option>2020</option>
+                <option>2019</option>
+                <option>2018</option>
+                <option>2017</option>
+                <option>2016</option>
+                <option>2015</option>
+                <option>2014</option>
+                <option>2013</option>
+                <option>2012</option>
+                <option>2011</option>
+                <option>2010</option>
+                <option>2009</option>
+                <option>2008</option>
+                <option>2007</option>
+                <option>2006</option>
+                <option>2005</option>
+                <option>2004</option>
+                <option>2003</option>
+                <option>2002</option>
+                <option>2001</option>
+                <option>2000</option>
+                <option>1999</option>
+              </select>
+            </label>
+            <label>
+              Password
+              <input type="password" placeholder="Create a password" />
+            </label>
+            <label>
+              Confirm Password
+              <input type="password" placeholder="Confirm your password" />
+            </label>
+            <button type="button" class="btn btn-primary btn-full">
+              Create Account (demo)
+            </button>
+            <p class="auth-meta" style="margin-top: 0.5rem; text-align: center;">
+              Already have an account? <span style="color: #2563eb; cursor: pointer;" class="auth-switch-signin">Sign in</span>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
+
+

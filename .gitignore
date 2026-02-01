@@ -1,0 +1,19 @@
+# Dependencies - do not push (run npm install after clone)
+backend/node_modules/
+
+# Environment / secrets
+backend/.env
+.env
+.env.local
+*.env
+
+# Logs and OS
+*.log
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
